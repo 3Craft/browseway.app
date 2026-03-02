@@ -4,113 +4,900 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browseway — Rule-based browser switching for macOS</title>
+    <meta name="description" content="Browseway is a macOS menu bar app that routes URLs to different browsers based on source app and URL patterns. Fully automatic.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-deep: #08080c;
+            --bg-surface: #0e0e14;
+            --bg-elevated: #14141e;
+            --bg-card: rgba(18, 18, 28, 0.6);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --text-primary: #eeeef0;
+            --text-secondary: #8888a0;
+            --text-tertiary: #55556a;
+            --accent: #6e8efa;
+            --accent-glow: rgba(110, 142, 250, 0.15);
+            --accent-warm: #c4956a;
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
-            background: #0a0a0a;
-            color: #f5f5f7;
-            min-height: 100vh;
+            font-family: var(--font-body);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ── Atmospheric Background ── */
+        .atmosphere {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .atmosphere::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140%;
+            height: 80%;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(110, 142, 250, 0.07) 0%,
+                rgba(110, 142, 250, 0.03) 30%,
+                transparent 70%
+            );
+        }
+
+        .atmosphere::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: radial-gradient(
+                ellipse at 30% 100%,
+                rgba(196, 149, 106, 0.04) 0%,
+                transparent 60%
+            );
+        }
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.3;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E");
+            background-size: 128px 128px;
+        }
+
+        /* ── Layout ── */
+        .page { position: relative; z-index: 1; }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ── Navigation ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            background: rgba(8, 8, 12, 0.7);
+            border-bottom: 1px solid var(--border-subtle);
+            transition: all 0.4s ease;
+        }
+
+        nav .inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.15rem;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            transition: all 0.25s ease;
+        }
+
+        .nav-download:hover {
+            background: rgba(255, 255, 255, 0.11);
+            border-color: var(--border-hover);
+        }
+
+        .nav-download svg { opacity: 0.6; }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 10rem 0 6rem;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: var(--accent-glow);
+            border: 1px solid rgba(110, 142, 250, 0.2);
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 0.02em;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .hero-icon {
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 2.5rem;
+            background: linear-gradient(145deg, #1a1a2e 0%, #0e0e18 100%);
+            border-radius: 22px;
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.3s forwards;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.04),
+                0 8px 40px rgba(0, 0, 0, 0.4),
+                0 0 80px var(--accent-glow);
+        }
+
+        .hero-icon svg {
+            width: 48px;
+            height: 48px;
+            opacity: 0.9;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 7vw, 4.5rem);
+            font-weight: 400;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.5s forwards;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.85rem 1.75rem;
+            background: var(--text-primary);
+            color: var(--bg-deep);
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(110, 142, 250, 0.15));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 32px rgba(238, 238, 240, 0.12);
+        }
+
+        .btn-primary:hover::after { opacity: 1; }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.5rem;
+            background: transparent;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 400;
+            transition: color 0.25s ease;
+        }
+
+        .btn-secondary:hover { color: var(--text-primary); }
+
+        .hero-meta {
+            margin-top: 2rem;
+            font-size: 0.78rem;
+            color: var(--text-tertiary);
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.7s forwards;
+        }
+
+        /* ── Prism Divider (visual metaphor) ── */
+        .prism-divider {
+            display: flex;
+            justify-content: center;
+            padding: 3rem 0;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.8s forwards;
+        }
+
+        .prism-lines {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+            height: 40px;
+        }
+
+        .prism-line {
+            width: 2px;
+            border-radius: 1px;
+            animation: prismPulse 3s ease-in-out infinite;
+        }
+
+        .prism-line:nth-child(1) { background: #ff6b6b; height: 16px; animation-delay: 0s; }
+        .prism-line:nth-child(2) { background: #ffa94d; height: 22px; animation-delay: 0.15s; }
+        .prism-line:nth-child(3) { background: #ffe066; height: 28px; animation-delay: 0.3s; }
+        .prism-line:nth-child(4) { background: #69db7c; height: 34px; animation-delay: 0.45s; }
+        .prism-line:nth-child(5) { background: #6e8efa; height: 40px; animation-delay: 0.6s; }
+        .prism-line:nth-child(6) { background: #b197fc; height: 34px; animation-delay: 0.75s; }
+        .prism-line:nth-child(7) { background: #e599f7; height: 28px; animation-delay: 0.9s; }
+
+        @keyframes prismPulse {
+            0%, 100% { opacity: 0.4; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.3); }
+        }
+
+        /* ── How It Works ── */
+        .how-section {
+            padding: 4rem 0 6rem;
+        }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 400;
+            letter-spacing: -0.025em;
+            line-height: 1.15;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 480px;
+            font-weight: 300;
+            margin-bottom: 4rem;
+        }
+
+        /* Flow diagram */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            padding: 3rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            overflow-x: auto;
+        }
+
+        .flow-step {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        .hero {
+            gap: 0.75rem;
+            min-width: 120px;
             text-align: center;
-            max-width: 640px;
         }
-        .icon {
-            width: 128px;
-            height: 128px;
-            margin: 0 auto 2rem;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            border-radius: 28px;
+
+        .flow-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 64px;
+            font-size: 1.4rem;
         }
-        h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.75rem;
+
+        .flow-label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
-        .tagline {
-            font-size: 1.25rem;
-            color: #a1a1aa;
-            margin-bottom: 2rem;
-            line-height: 1.6;
+
+        .flow-arrow {
+            color: var(--text-tertiary);
+            font-size: 1.2rem;
+            padding: 0 0.5rem;
+            flex-shrink: 0;
         }
-        .download-btn {
-            display: inline-block;
-            padding: 0.875rem 2rem;
-            background: #f5f5f7;
-            color: #0a0a0a;
-            text-decoration: none;
-            border-radius: 12px;
+
+        .flow-branches {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .flow-branches .flow-icon {
+            width: 44px;
+            height: 44px;
             font-size: 1.1rem;
-            font-weight: 600;
-            transition: opacity 0.2s;
         }
-        .download-btn:hover { opacity: 0.85; }
-        .features {
+
+        .flow-branches .flow-label { font-size: 0.72rem; }
+
+        /* ── Features ── */
+        .features-section {
+            padding: 4rem 0 6rem;
+        }
+
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-            width: 100%;
-            max-width: 640px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            overflow: hidden;
         }
-        .feature {
-            background: #18181b;
-            padding: 1.25rem;
-            border-radius: 12px;
-            border: 1px solid #27272a;
+
+        .feature-card {
+            background: var(--bg-surface);
+            padding: 2.25rem 2rem;
+            transition: background 0.35s ease;
+            position: relative;
         }
-        .feature h3 {
-            font-size: 0.95rem;
-            margin-bottom: 0.5rem;
+
+        .feature-card:hover {
+            background: var(--bg-elevated);
         }
-        .feature p {
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            background: rgba(110, 142, 250, 0.08);
+            border-radius: 10px;
+            border: 1px solid rgba(110, 142, 250, 0.12);
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: rgba(196, 149, 106, 0.08);
+            border-color: rgba(196, 149, 106, 0.12);
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background: rgba(105, 219, 124, 0.08);
+            border-color: rgba(105, 219, 124, 0.12);
+        }
+
+        .feature-card:nth-child(4) .feature-icon {
+            background: rgba(229, 153, 247, 0.08);
+            border-color: rgba(229, 153, 247, 0.12);
+        }
+
+        .feature-card:nth-child(5) .feature-icon {
+            background: rgba(255, 169, 77, 0.08);
+            border-color: rgba(255, 169, 77, 0.12);
+        }
+
+        .feature-card:nth-child(6) .feature-icon {
+            background: rgba(255, 107, 107, 0.08);
+            border-color: rgba(255, 107, 107, 0.12);
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 0.65rem;
+            letter-spacing: -0.01em;
+        }
+
+        .feature-card p {
             font-size: 0.85rem;
-            color: #a1a1aa;
-            line-height: 1.5;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            font-weight: 300;
         }
+
+        .feature-tag {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            color: var(--text-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+        }
+
+        /* ── CTA ── */
+        .cta-section {
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .cta-box {
+            padding: 4rem 3rem;
+            background: linear-gradient(165deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.4;
+        }
+
+        .cta-box h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        /* ── Footer ── */
         footer {
-            margin-top: 4rem;
-            color: #52525b;
-            font-size: 0.8rem;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        footer .inner {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-left {
+            font-size: 0.78rem;
+            color: var(--text-tertiary);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            font-size: 0.78rem;
+            color: var(--text-tertiary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover { color: var(--text-secondary); }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .hero { padding: 8rem 0 4rem; }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 2rem;
+            }
+
+            .flow-arrow { transform: rotate(90deg); }
+
+            .flow-branches {
+                flex-direction: row;
+                gap: 1rem;
+            }
+
+            .cta-box { padding: 3rem 1.5rem; }
+
+            footer .inner {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .features-grid {
+                border-radius: 12px;
+            }
+
+            .feature-card { padding: 1.75rem 1.5rem; }
+
+            .hero-actions { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="icon">🌐</div>
-        <h1>Browseway</h1>
-        <p class="tagline">Rule-based browser switching — fully automatic.<br>Route URLs to different browsers based on source app and URL patterns.</p>
-        <a href="updates/Browseway.dmg" class="download-btn">Download for macOS</a>
+    <div class="atmosphere"></div>
+    <div class="grain"></div>
+
+    <div class="page">
+        <!-- Nav -->
+        <nav>
+            <div class="inner">
+                <a href="/" class="nav-brand">Browseway</a>
+                <a href="updates/Browseway.dmg" class="nav-download">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Download
+                </a>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-badge">macOS 14+ Sonoma</div>
+
+                <div class="hero-icon">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                        <path d="M12 24h8" stroke="#6e8efa" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M28 18h8" stroke="#ff6b6b" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M28 24h8" stroke="#69db7c" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M28 30h8" stroke="#ffa94d" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M20 24l8-6" stroke="#ff6b6b" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+                        <path d="M20 24l8 0" stroke="#69db7c" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+                        <path d="M20 24l8 6" stroke="#ffa94d" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+                        <circle cx="10" cy="24" r="3" stroke="#6e8efa" stroke-width="1.5" fill="none"/>
+                        <circle cx="38" cy="18" r="2.5" stroke="#ff6b6b" stroke-width="1.5" fill="none"/>
+                        <circle cx="38" cy="24" r="2.5" stroke="#69db7c" stroke-width="1.5" fill="none"/>
+                        <circle cx="38" cy="30" r="2.5" stroke="#ffa94d" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+
+                <h1>One URL in,<br>the <em>right</em> browser out</h1>
+                <p class="hero-sub">Browseway sits in your menu bar and silently routes every link to the right browser — based on which app sent it and where it points.</p>
+
+                <div class="hero-actions">
+                    <a href="updates/Browseway.dmg" class="btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14M5 12l7 7 7-7"/>
+                        </svg>
+                        Download for macOS
+                    </a>
+                    <a href="https://github.com/3Craft/browseway.app/releases" class="btn-secondary">
+                        View on GitHub &rarr;
+                    </a>
+                </div>
+
+                <p class="hero-meta">Free &middot; No account required &middot; 1.8 MB</p>
+            </div>
+        </section>
+
+        <!-- Prism divider -->
+        <div class="prism-divider">
+            <div class="prism-lines">
+                <div class="prism-line"></div>
+                <div class="prism-line"></div>
+                <div class="prism-line"></div>
+                <div class="prism-line"></div>
+                <div class="prism-line"></div>
+                <div class="prism-line"></div>
+                <div class="prism-line"></div>
+            </div>
+        </div>
+
+        <!-- How it works -->
+        <section class="how-section reveal">
+            <div class="container">
+                <p class="section-label">How it works</p>
+                <h2 class="section-title">Like a prism for your links</h2>
+                <p class="section-desc">A single URL enters Browseway. Rules match the source app and URL pattern. The right browser opens — instantly, silently.</p>
+
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="flow-icon">💬</div>
+                        <span class="flow-label">Slack sends<br>a link</span>
+                    </div>
+                    <div class="flow-arrow">&rarr;</div>
+                    <div class="flow-step">
+                        <div class="flow-icon" style="border-color: rgba(110, 142, 250, 0.25); box-shadow: 0 0 20px var(--accent-glow);">
+                            <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
+                                <path d="M12 24h8" stroke="#6e8efa" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M28 18h8" stroke="#ff6b6b" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M28 24h8" stroke="#69db7c" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M28 30h8" stroke="#ffa94d" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M20 24l8-6" stroke="#ff6b6b" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+                                <path d="M20 24l8 0" stroke="#69db7c" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+                                <path d="M20 24l8 6" stroke="#ffa94d" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+                            </svg>
+                        </div>
+                        <span class="flow-label">Browseway<br>routes</span>
+                    </div>
+                    <div class="flow-arrow">&rarr;</div>
+                    <div class="flow-branches">
+                        <div class="flow-step">
+                            <div class="flow-icon">🔴</div>
+                            <span class="flow-label">Chrome</span>
+                        </div>
+                        <div class="flow-step">
+                            <div class="flow-icon">🔵</div>
+                            <span class="flow-label">Safari</span>
+                        </div>
+                        <div class="flow-step">
+                            <div class="flow-icon">🟣</div>
+                            <span class="flow-label">Firefox</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="features-section reveal">
+            <div class="container">
+                <p class="section-label">Features</p>
+                <h2 class="section-title">Everything you need,<br>nothing you don't</h2>
+                <p class="section-desc">Set your rules once. Browseway handles the rest — quietly, from your menu bar.</p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6e8efa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>
+                            </svg>
+                        </div>
+                        <h3>Source App Rules</h3>
+                        <p>Links from Slack open in Chrome. Links from Mail open in Safari. Each app gets its own browser — automatically.</p>
+                        <span class="feature-tag">Per-App</span>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c4956a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+                            </svg>
+                        </div>
+                        <h3>URL Pattern Matching</h3>
+                        <p>Route github.com to one browser, google.com to another. Bare domains, wildcards, and substring matching.</p>
+                        <span class="feature-tag">Wildcards</span>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#69db7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                        <h3>URL Cleaning</h3>
+                        <p>Strips utm_*, fbclid, gclid and other tracking junk. Expands bit.ly and t.co short links before routing.</p>
+                        <span class="feature-tag">Privacy</span>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e599f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                            </svg>
+                        </div>
+                        <h3>Auto Updates</h3>
+                        <p>Built-in Sparkle updater checks for new versions automatically. Always stay current, zero effort.</p>
+                        <span class="feature-tag">Sparkle</span>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffa94d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+                            </svg>
+                        </div>
+                        <h3>Modifier Key Override</h3>
+                        <p>Hold Option while clicking any link to bypass all rules and open in your chosen override browser.</p>
+                        <span class="feature-tag">⌥ Option</span>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <h3>Shortcuts Integration</h3>
+                        <p>Create rules, route URLs, and manage browsers through Apple Shortcuts. Automate your workflow.</p>
+                        <span class="feature-tag">App Intents</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section reveal">
+            <div class="container">
+                <div class="cta-box">
+                    <h2>Start routing in seconds</h2>
+                    <p>Download Browseway, set it as your default browser, and add your first rule.</p>
+                    <a href="updates/Browseway.dmg" class="btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14M5 12l7 7 7-7"/>
+                        </svg>
+                        Download for macOS
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="inner">
+                <div class="footer-left">&copy; 2025 3Craft. macOS 14+ (Sonoma) required.</div>
+                <div class="footer-links">
+                    <a href="https://github.com/3Craft/browseway.app/releases">Releases</a>
+                    <a href="https://github.com/3Craft/browseway.app">GitHub</a>
+                </div>
+            </div>
+        </footer>
     </div>
-    <div class="features">
-        <div class="feature">
-            <h3>Source App Rules</h3>
-            <p>Links from Slack open in Chrome, links from Mail open in Safari — automatically.</p>
-        </div>
-        <div class="feature">
-            <h3>URL Pattern Matching</h3>
-            <p>Route github.com to one browser, google.com to another. Wildcards supported.</p>
-        </div>
-        <div class="feature">
-            <h3>URL Cleaning</h3>
-            <p>Strip tracking parameters (utm_*, fbclid) and expand short URLs before routing.</p>
-        </div>
-        <div class="feature">
-            <h3>Auto Updates</h3>
-            <p>Built-in Sparkle updater keeps you on the latest version automatically.</p>
-        </div>
-    </div>
-    <footer>&copy; 2025 3Craft. macOS 14+ (Sonoma) required.</footer>
+
+    <script>
+        // Intersection Observer for scroll reveals
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        reveals.forEach(el => observer.observe(el));
+
+        // Nav background on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            nav.style.borderBottomColor = window.scrollY > 40
+                ? 'rgba(255,255,255,0.08)'
+                : 'rgba(255,255,255,0.04)';
+        }, { passive: true });
+    </script>
 </body>
 </html>

@@ -367,68 +367,166 @@
             margin-bottom: 4rem;
         }
 
-        /* Flow diagram */
-        .flow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0;
-            padding: 3rem 1.5rem;
+        /* Route map */
+        .route-map {
+            padding: 2.5rem;
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
             border-radius: 16px;
             backdrop-filter: blur(12px);
-            overflow-x: auto;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .flow-step {
+        .route-map-header {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.75rem;
-            min-width: 120px;
-            text-align: center;
+            justify-content: space-between;
+            padding: 0 0.5rem 1.25rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 1.25rem;
         }
 
-        .flow-icon {
-            width: 52px;
-            height: 52px;
+        .route-map-header span {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+        }
+
+        .route-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.6rem 0.5rem;
+            border-radius: 10px;
+            transition: background 0.2s;
+        }
+
+        .route-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .route-source {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            min-width: 140px;
+        }
+
+        .route-source-icon {
+            width: 32px;
+            height: 32px;
             background: var(--bg-elevated);
             border: 1px solid var(--border-subtle);
-            border-radius: 14px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-        }
-
-        .flow-label {
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-
-        .flow-arrow {
-            color: var(--text-tertiary);
-            font-size: 1.2rem;
-            padding: 0 0.5rem;
+            font-size: 1rem;
             flex-shrink: 0;
         }
 
-        .flow-branches {
+        .route-source-name {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .route-source-type {
+            font-size: 0.6rem;
+            color: var(--text-tertiary);
+            font-weight: 400;
+        }
+
+        .route-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-subtle), var(--accent) 50%, var(--border-subtle));
+            position: relative;
+            min-width: 40px;
+        }
+
+        .route-line::after {
+            content: '';
+            position: absolute;
+            right: -3px;
+            top: -3px;
+            width: 7px;
+            height: 7px;
+            border-top: 1px solid var(--accent);
+            border-right: 1px solid var(--accent);
+            transform: rotate(45deg);
+        }
+
+        .route-target {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 0.65rem;
+            min-width: 120px;
+        }
+
+        .route-target-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .route-target-name {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .route-badge {
+            font-size: 0.55rem;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .route-badge.app { background: rgba(110, 142, 250, 0.12); color: var(--accent); }
+        .route-badge.url { background: rgba(196, 149, 106, 0.12); color: var(--accent-warm); }
+        .route-badge.default { background: rgba(105, 219, 124, 0.12); color: #69db7c; }
+
+        /* Browser grid below route map */
+        .browser-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem 2rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+        }
+
+        .browser-chip {
+            display: flex;
+            align-items: center;
             gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            font-weight: 400;
         }
 
-        .flow-branches .flow-icon {
-            width: 44px;
-            height: 44px;
-            font-size: 1.1rem;
+        .browser-chip svg {
+            opacity: 0.6;
         }
 
-        .flow-branches .flow-label { font-size: 0.72rem; }
+        .browser-chip-more {
+            color: var(--text-tertiary);
+            font-size: 0.75rem;
+            font-style: italic;
+        }
 
         /* ── Features ── */
         .features-section {
@@ -624,17 +722,28 @@
                 grid-template-columns: 1fr;
             }
 
-            .flow {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 2rem;
+            .route-map {
+                padding: 1.5rem;
             }
 
-            .flow-arrow { transform: rotate(90deg); }
+            .route-source {
+                min-width: 100px;
+            }
 
-            .flow-branches {
-                flex-direction: row;
-                gap: 1rem;
+            .route-source-name {
+                font-size: 0.75rem !important;
+            }
+
+            .route-target {
+                min-width: 80px;
+            }
+
+            .route-target-name {
+                font-size: 0.75rem;
+            }
+
+            .browser-grid {
+                gap: 1rem 1.25rem;
             }
 
             .cta-box { padding: 3rem 1.5rem; }
@@ -734,41 +843,160 @@
                 <h2 class="section-title">Like a prism for your links</h2>
                 <p class="section-desc">A single URL enters Browseway. Rules match the source app and URL pattern. The right browser opens — instantly, silently.</p>
 
-                <div class="flow">
-                    <div class="flow-step">
-                        <div class="flow-icon">💬</div>
-                        <span class="flow-label">Slack sends<br>a link</span>
+                <div class="route-map">
+                    <div class="route-map-header">
+                        <span>Source</span>
+                        <span>Opens in</span>
                     </div>
-                    <div class="flow-arrow">&rarr;</div>
-                    <div class="flow-step">
-                        <div class="flow-icon" style="border-color: rgba(110, 142, 250, 0.25); box-shadow: 0 0 20px var(--accent-glow);">
-                            <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
-                                <path d="M12 24h8" stroke="#6e8efa" stroke-width="2" stroke-linecap="round"/>
-                                <path d="M28 18h8" stroke="#ff6b6b" stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M28 24h8" stroke="#69db7c" stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M28 30h8" stroke="#ffa94d" stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M20 24l8-6" stroke="#ff6b6b" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
-                                <path d="M20 24l8 0" stroke="#69db7c" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
-                                <path d="M20 24l8 6" stroke="#ffa94d" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
-                            </svg>
+
+                    <!-- App rule: Slack → Chrome -->
+                    <div class="route-row">
+                        <div class="route-source">
+                            <div class="route-source-icon">
+                                <svg width="18" height="18" viewBox="0 0 48 48"><path d="M14.5 28a4.5 4.5 0 0 1-4.5-4.5 4.5 4.5 0 0 1 4.5-4.5H19v4.5a4.5 4.5 0 0 1-4.5 4.5m0 2A4.5 4.5 0 0 1 19 34.5V39a4.5 4.5 0 1 1-4.5-9" fill="#E01E5A"/><path d="M24 14.5A4.5 4.5 0 0 1 19.5 10a4.5 4.5 0 0 1 4.5-4.5 4.5 4.5 0 0 1 4.5 4.5V19h-4.5m-2 0A4.5 4.5 0 0 1 17.5 14.5 4.5 4.5 0 0 1 13 19a4.5 4.5 0 1 1 9 0" fill="#36C5F0"/><path d="M33.5 19A4.5 4.5 0 0 1 38 23.5a4.5 4.5 0 0 1-4.5 4.5H29v-4.5A4.5 4.5 0 0 1 33.5 19m0 2A4.5 4.5 0 0 1 29 25.5V21a4.5 4.5 0 0 1 4.5 0" fill="#2EB67D"/><path d="M24 33.5a4.5 4.5 0 0 1 4.5 4.5 4.5 4.5 0 0 1-4.5 4.5 4.5 4.5 0 0 1-4.5-4.5V29h4.5m2 0a4.5 4.5 0 0 1 4.5 4.5A4.5 4.5 0 0 1 35 38a4.5 4.5 0 1 1 0-9" fill="#ECB22E"/></svg>
+                            </div>
+                            <span class="route-source-name">Slack</span>
                         </div>
-                        <span class="flow-label">Browseway<br>routes</span>
+                        <div class="route-line"></div>
+                        <div class="route-target">
+                            <div class="route-target-icon">
+                                <svg width="18" height="18" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#4285F4"/><circle cx="24" cy="24" r="8" fill="white"/><circle cx="24" cy="24" r="4" fill="#4285F4"/><path d="M24 16h18.5c-1.8-4.3-5-7.8-9.2-9.8L24 24z" fill="#EA4335"/><path d="M14.7 35.5L24 24 15.3 6.2C11.1 8.2 7.9 11.7 6.1 16z" fill="#FBBC05"/><path d="M24 32c-4.4 0-8-3.6-8-8l-9.3 5.5c2 4.3 5.5 7.7 9.8 9.5L24 24z" fill="#34A853"/></svg>
+                            </div>
+                            <span class="route-target-name">Chrome</span>
+                        </div>
+                        <span class="route-badge app">App</span>
                     </div>
-                    <div class="flow-arrow">&rarr;</div>
-                    <div class="flow-branches">
-                        <div class="flow-step">
-                            <div class="flow-icon">🔴</div>
-                            <span class="flow-label">Chrome</span>
+
+                    <!-- App rule: Mail → Safari -->
+                    <div class="route-row">
+                        <div class="route-source">
+                            <div class="route-source-icon">
+                                <svg width="18" height="18" viewBox="0 0 48 48"><defs><linearGradient id="ml" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#35AAFF"/><stop offset="100%" stop-color="#0070E0"/></linearGradient></defs><rect x="4" y="10" width="40" height="28" rx="4" fill="url(#ml)"/><path d="M4 14l20 13L44 14" stroke="white" stroke-width="2.5" fill="none" stroke-linejoin="round"/></svg>
+                            </div>
+                            <span class="route-source-name">Mail</span>
                         </div>
-                        <div class="flow-step">
-                            <div class="flow-icon">🔵</div>
-                            <span class="flow-label">Safari</span>
+                        <div class="route-line"></div>
+                        <div class="route-target">
+                            <div class="route-target-icon">
+                                <svg width="18" height="18" viewBox="0 0 48 48"><defs><linearGradient id="sf2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#69C5F4"/><stop offset="100%" stop-color="#1574EF"/></linearGradient></defs><circle cx="24" cy="24" r="22" fill="url(#sf2)"/><path d="M40 24c0-8.8-7.2-16-16-16 0 0 12 2 12 16s-12 16-12 16c8.8 0 16-7.2 16-16z" fill="white" opacity="0.9"/></svg>
+                            </div>
+                            <span class="route-target-name">Safari</span>
                         </div>
-                        <div class="flow-step">
-                            <div class="flow-icon">🟣</div>
-                            <span class="flow-label">Firefox</span>
-                        </div>
+                        <span class="route-badge app">App</span>
                     </div>
+
+                    <!-- App rule: WeChat → Arc -->
+                    <div class="route-row">
+                        <div class="route-source">
+                            <div class="route-source-icon">
+                                <svg width="18" height="18" viewBox="0 0 48 48"><rect x="4" y="4" width="40" height="40" rx="10" fill="#07C160"/><path d="M16 20c0-1.1.9-2 2-2h3c1.1 0 2 .9 2 2v3c0 1.1-.9 2-2 2h-3a2 2 0 0 1-2-2v-3z" fill="white"/><path d="M25 25c0-1.1.9-2 2-2h3c1.1 0 2 .9 2 2v3c0 1.1-.9 2-2 2h-3a2 2 0 0 1-2-2v-3z" fill="white"/><circle cx="30" cy="18" r="3" fill="white"/><circle cx="18" cy="30" r="3" fill="white"/></svg>
+                            </div>
+                            <span class="route-source-name">WeChat</span>
+                        </div>
+                        <div class="route-line"></div>
+                        <div class="route-target">
+                            <div class="route-target-icon">
+                                <svg width="18" height="18" viewBox="0 0 48 48"><defs><linearGradient id="arc2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FF5CAA"/><stop offset="50%" stop-color="#FF4F4F"/><stop offset="100%" stop-color="#FFB340"/></linearGradient></defs><rect x="4" y="4" width="40" height="40" rx="12" fill="url(#arc2)"/><path d="M14 34V18c0-2.2 1.8-4 4-4h12c2.2 0 4 1.8 4 4v0" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/><circle cx="18" cy="34" r="2.5" fill="white"/><circle cx="30" cy="18" r="2.5" fill="white"/></svg>
+                            </div>
+                            <span class="route-target-name">Arc</span>
+                        </div>
+                        <span class="route-badge app">App</span>
+                    </div>
+
+                    <!-- URL rule: github.com → Firefox -->
+                    <div class="route-row">
+                        <div class="route-source">
+                            <div class="route-source-icon" style="font-size: 0.7rem; color: var(--accent-warm);">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c4956a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                            </div>
+                            <div>
+                                <span class="route-source-name" style="font-family: monospace; font-size: 0.75rem;">*.github.com</span>
+                            </div>
+                        </div>
+                        <div class="route-line"></div>
+                        <div class="route-target">
+                            <div class="route-target-icon">
+                                <svg width="18" height="18" viewBox="0 0 48 48"><defs><linearGradient id="ff2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FF980E"/><stop offset="100%" stop-color="#FF3750"/></linearGradient></defs><circle cx="24" cy="24" r="22" fill="#1C1B22"/><path d="M38 18c-2-6-8-10-14-10-9 0-16 7-16 16 0 7 4.5 13.5 11 15.5-.3-2 0-4.5 1-6.5 1-2.5 3-8 3-8s-.8-1.5-.8-3.5c0-3.3 2-5.5 4.3-5.5 2 0 3 1.5 3 3.3 0 2-1.3 5-2 7.8-.6 2.3 1.2 4.2 3.5 4.2 4.2 0 7-5.5 7-12 0-5-3.3-8.5-9.2-8.5-6.7 0-10.8 5-10.8 10.5 0 1.9.6 3.2 1.4 4.2.4.4.4.7.3 1.1l-.5 2c-.2.6-.6.8-1.1.5-3-1.3-4.5-4.8-4.5-8.7 0-6.5 5.5-14.2 16.2-14.2 8.7 0 14.3 6.3 14.3 13 0 8.8-4.9 15.5-12.2 15.5z" fill="url(#ff2)"/></svg>
+                            </div>
+                            <span class="route-target-name">Firefox</span>
+                        </div>
+                        <span class="route-badge url">URL</span>
+                    </div>
+
+                    <!-- URL rule: *.notion.so → Dia -->
+                    <div class="route-row">
+                        <div class="route-source">
+                            <div class="route-source-icon" style="font-size: 0.7rem; color: var(--accent-warm);">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c4956a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                            </div>
+                            <div>
+                                <span class="route-source-name" style="font-family: monospace; font-size: 0.75rem;">*.notion.so</span>
+                            </div>
+                        </div>
+                        <div class="route-line"></div>
+                        <div class="route-target">
+                            <div class="route-target-icon">
+                                <svg width="18" height="18" viewBox="0 0 48 48"><defs><linearGradient id="dia2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#2DD4BF"/></linearGradient></defs><rect x="4" y="4" width="40" height="40" rx="12" fill="url(#dia2)"/><circle cx="24" cy="20" r="6" fill="white" opacity="0.9"/><path d="M16 36c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="white" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7"/></svg>
+                            </div>
+                            <span class="route-target-name">Dia</span>
+                        </div>
+                        <span class="route-badge url">URL</span>
+                    </div>
+
+                    <!-- Default rule -->
+                    <div class="route-row">
+                        <div class="route-source">
+                            <div class="route-source-icon" style="font-size: 0.7rem; color: #69db7c;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#69db7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
+                            </div>
+                            <span class="route-source-name" style="color: var(--text-secondary);">Everything else</span>
+                        </div>
+                        <div class="route-line"></div>
+                        <div class="route-target">
+                            <div class="route-target-icon">
+                                <svg width="18" height="18" viewBox="0 0 48 48"><defs><linearGradient id="brave2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF5500"/><stop offset="100%" stop-color="#FF2000"/></linearGradient></defs><path d="M24 4L8 12v10c0 10.5 6.8 20.3 16 24 9.2-3.7 16-13.5 16-24V12L24 4z" fill="url(#brave2)"/><path d="M24 14l-4 3 1 5-4 3 2 5 5-1 5 1 2-5-4-3 1-5-4-3z" fill="white" opacity="0.9"/></svg>
+                            </div>
+                            <span class="route-target-name">Brave</span>
+                        </div>
+                        <span class="route-badge default">Default</span>
+                    </div>
+                </div>
+
+                <!-- Supported browsers -->
+                <div class="browser-grid">
+                    <div class="browser-chip">
+                        <svg width="16" height="16" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#4285F4"/><circle cx="24" cy="24" r="6" fill="white"/><circle cx="24" cy="24" r="3" fill="#4285F4"/></svg>
+                        Chrome
+                    </div>
+                    <div class="browser-chip">
+                        <svg width="16" height="16" viewBox="0 0 48 48"><defs><linearGradient id="sfm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#69C5F4"/><stop offset="100%" stop-color="#1574EF"/></linearGradient></defs><circle cx="24" cy="24" r="22" fill="url(#sfm)"/></svg>
+                        Safari
+                    </div>
+                    <div class="browser-chip">
+                        <svg width="16" height="16" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#1C1B22"/><circle cx="24" cy="24" r="10" fill="#FF6611"/></svg>
+                        Firefox
+                    </div>
+                    <div class="browser-chip">
+                        <svg width="16" height="16" viewBox="0 0 48 48"><defs><linearGradient id="arcm" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FF5CAA"/><stop offset="100%" stop-color="#FFB340"/></linearGradient></defs><rect x="4" y="4" width="40" height="40" rx="12" fill="url(#arcm)"/></svg>
+                        Arc
+                    </div>
+                    <div class="browser-chip">
+                        <svg width="16" height="16" viewBox="0 0 48 48"><defs><linearGradient id="brvm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF5500"/><stop offset="100%" stop-color="#FF2000"/></linearGradient></defs><path d="M24 4L8 12v10c0 10.5 6.8 20.3 16 24 9.2-3.7 16-13.5 16-24V12L24 4z" fill="url(#brvm)"/></svg>
+                        Brave
+                    </div>
+                    <div class="browser-chip">
+                        <svg width="16" height="16" viewBox="0 0 48 48"><defs><linearGradient id="edgm" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0078D4"/><stop offset="100%" stop-color="#35C1F1"/></linearGradient></defs><circle cx="24" cy="24" r="22" fill="url(#edgm)"/></svg>
+                        Edge
+                    </div>
+                    <div class="browser-chip">
+                        <svg width="16" height="16" viewBox="0 0 48 48"><defs><linearGradient id="vivm" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#EF3939"/><stop offset="100%" stop-color="#FF3366"/></linearGradient></defs><rect x="4" y="4" width="40" height="40" rx="10" fill="url(#vivm)"/></svg>
+                        Vivaldi
+                    </div>
+                    <div class="browser-chip">
+                        <svg width="16" height="16" viewBox="0 0 48 48"><defs><linearGradient id="diam" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#2DD4BF"/></linearGradient></defs><rect x="4" y="4" width="40" height="40" rx="12" fill="url(#diam)"/></svg>
+                        Dia
+                    </div>
+                    <div class="browser-chip browser-chip-more">and any browser on your Mac</div>
                 </div>
             </div>
         </section>

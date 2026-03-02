@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browseway — Compass Logo Concepts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Instrument+Serif&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #06060a;
+            --surface: #0e0e16;
+            --card: rgba(16, 16, 26, 0.7);
+            --border: rgba(255, 255, 255, 0.06);
+            --text: #eeeef0;
+            --dim: #7c7c96;
+            --muted: #4a4a60;
+            --accent: #6e8efa;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .page {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 5rem 2rem 6rem;
+        }
+
+        .page-header {
+            margin-bottom: 5rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.6rem;
+        }
+
+        .page-header p {
+            color: var(--dim);
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .concept {
+            margin-bottom: 5rem;
+        }
+
+        .concept-label {
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .concept-name {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.4rem;
+        }
+
+        .concept-desc {
+            color: var(--dim);
+            font-size: 0.82rem;
+            font-weight: 300;
+            line-height: 1.6;
+            max-width: 520px;
+            margin-bottom: 2rem;
+        }
+
+        .showcase {
+            border-radius: 14px;
+            padding: 2rem 2.5rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: flex-end;
+            gap: 2.5rem;
+            overflow-x: auto;
+        }
+
+        .showcase.on-dark {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .showcase.on-light {
+            background: #f2f2f5;
+            border: 1px solid #dddde2;
+            color: #111113;
+        }
+
+        .showcase-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.65rem;
+            flex-shrink: 0;
+        }
+
+        .showcase-size {
+            font-size: 0.58rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            opacity: 0.4;
+        }
+
+        .lockup-row {
+            display: flex;
+            gap: 3rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .lockup {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+        }
+
+        .lockup.on-dark {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .lockup.on-light {
+            background: #f2f2f5;
+            border: 1px solid #dddde2;
+            color: #111113;
+        }
+
+        .lockup-text {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0 0 5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="page-header">
+            <h1>Browseway — Compass Direction</h1>
+            <p>Compass / navigator metaphor — direction, guidance, "finding the way"</p>
+        </div>
+
+        <div id="concepts"></div>
+    </div>
+
+    <script>
+        const concepts = [
+            {
+                name: 'Split Needle',
+                desc: 'A compass circle with a needle that splits into three directions at the top — one URL enters, multiple routes emerge. The classic compass becomes a router.',
+                paths: `
+                    <circle cx="24" cy="24" r="20" stroke-width="2.5" fill="none"/>
+                    <path d="M 24 44 L 24 26" stroke-width="3"/>
+                    <circle cx="24" cy="24" r="2.5" fill="currentColor" stroke="none"/>
+                    <path d="M 24 22 L 24 6" stroke-width="2.5"/>
+                    <path d="M 24 22 L 14 8" stroke-width="2.5"/>
+                    <path d="M 24 22 L 34 8" stroke-width="2.5"/>
+                    <circle cx="24" cy="6" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="14" cy="8" r="2" fill="currentColor" stroke="none"/>
+                    <circle cx="34" cy="8" r="2" fill="currentColor" stroke="none"/>
+                `
+            },
+            {
+                name: 'Route Rose',
+                desc: 'A compass rose with four directional arms of varying length. The primary direction (north/right) is emphasized — like a default browser route, while others branch off.',
+                paths: `
+                    <circle cx="24" cy="24" r="19.5" stroke-width="2" fill="none"/>
+                    <circle cx="24" cy="24" r="3" fill="currentColor" stroke="none"/>
+                    <path d="M 24 21 L 24 5" stroke-width="2.8"/>
+                    <path d="M 27 24 L 43 24" stroke-width="2.8"/>
+                    <path d="M 24 27 L 24 38" stroke-width="2"/>
+                    <path d="M 21 24 L 10 24" stroke-width="2"/>
+                    <path d="M 22 5 L 24 2 L 26 5" stroke-width="2" fill="none"/>
+                    <path d="M 43 22 L 46 24 L 43 26" stroke-width="2" fill="none"/>
+                `
+            },
+            {
+                name: 'Waypoint',
+                desc: 'A location pin / waypoint marker that opens at the top into diverging route lines. The pin grounds the concept in navigation; the split top says "routing".',
+                paths: `
+                    <path d="M 24 44 L 24 28" stroke-width="3"/>
+                    <circle cx="24" cy="24" r="2.5" fill="currentColor" stroke="none"/>
+                    <path d="M 24 22 C 24 16, 24 14, 16 6" stroke-width="2.8" fill="none"/>
+                    <path d="M 24 22 L 24 4" stroke-width="2.8"/>
+                    <path d="M 24 22 C 24 16, 24 14, 32 6" stroke-width="2.8" fill="none"/>
+                    <circle cx="16" cy="6" r="2.2" fill="currentColor" stroke="none"/>
+                    <circle cx="24" cy="4" r="2.2" fill="currentColor" stroke="none"/>
+                    <circle cx="32" cy="6" r="2.2" fill="currentColor" stroke="none"/>
+                `
+            },
+            {
+                name: 'Diamond Router',
+                desc: 'A diamond / rhombus (compass shape) as the central routing node, with paths radiating outward. The diamond signals "decision point" — where the URL gets dispatched.',
+                paths: `
+                    <path d="M 24 14 L 34 24 L 24 34 L 14 24 Z" stroke-width="2.5" fill="none"/>
+                    <path d="M 24 14 L 24 4" stroke-width="2.5"/>
+                    <path d="M 34 24 L 44 24" stroke-width="2.5"/>
+                    <path d="M 24 34 L 24 44" stroke-width="2.5"/>
+                    <path d="M 14 24 L 4 24" stroke-width="2.5"/>
+                    <circle cx="24" cy="4" r="2.2" fill="currentColor" stroke="none"/>
+                    <circle cx="44" cy="24" r="2.2" fill="currentColor" stroke="none"/>
+                    <circle cx="24" cy="44" r="2.2" fill="currentColor" stroke="none"/>
+                    <circle cx="4" cy="24" r="2.2" fill="currentColor" stroke="none"/>
+                `
+            },
+            {
+                name: 'Compass Needle B',
+                desc: 'A minimal compass needle tilted to suggest forward motion, combined with a subtle B shape. The needle splits at the tip into two prongs — routing from a single point.',
+                paths: `
+                    <circle cx="24" cy="24" r="20" stroke-width="2" fill="none"/>
+                    <path d="M 24 42 L 22 26" stroke-width="2.5"/>
+                    <path d="M 24 42 L 26 26" stroke-width="2.5"/>
+                    <path d="M 22 22 L 14 8" stroke-width="2.5"/>
+                    <path d="M 24 24 L 24 6" stroke-width="2.5"/>
+                    <path d="M 26 22 L 34 8" stroke-width="2.5"/>
+                    <circle cx="24" cy="24" r="2.5" fill="currentColor" stroke="none"/>
+                `
+            },
+            {
+                name: 'Route Rose V2',
+                desc: 'Asymmetric compass rose — top and right arms punch through the circle with arrowheads, signaling primary routing directions. Left and bottom arms are short stubs, showing de-prioritized fallbacks. The circle becomes a boundary that active routes break through.',
+                paths: `
+                    <circle cx="24" cy="24" r="16" stroke-width="2.2" fill="none"/>
+                    <circle cx="24" cy="24" r="2.8" fill="currentColor" stroke="none"/>
+                    <path d="M 24 21 L 24 4" stroke-width="2.8"/>
+                    <path d="M 21.5 5.5 L 24 1.5 L 26.5 5.5" stroke-width="2" fill="none"/>
+                    <path d="M 27 24 L 44 24" stroke-width="2.8"/>
+                    <path d="M 42.5 21.5 L 46.5 24 L 42.5 26.5" stroke-width="2" fill="none"/>
+                    <path d="M 24 27 L 24 36" stroke-width="1.8"/>
+                    <path d="M 21 24 L 14 24" stroke-width="1.8"/>
+                `
+            }
+        ];
+
+        const sizes = [16, 24, 32, 48, 64, 128];
+        const container = document.getElementById('concepts');
+
+        function makeSVG(paths, size) {
+            return `<svg width="${size}" height="${size}" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+        }
+
+        concepts.forEach((c, i) => {
+            const sizeItemsDark = sizes.map(s =>
+                `<div class="showcase-item">${makeSVG(c.paths, s)}<span class="showcase-size">${s}px</span></div>`
+            ).join('');
+
+            const sizeItemsLight = sizes.map(s =>
+                `<div class="showcase-item">${makeSVG(c.paths, s)}<span class="showcase-size">${s}px</span></div>`
+            ).join('');
+
+            container.innerHTML += `
+                <div class="concept">
+                    <div class="concept-label">Compass ${String(i + 1).padStart(2, '0')}</div>
+                    <h2 class="concept-name">${c.name}</h2>
+                    <p class="concept-desc">${c.desc}</p>
+                    <div class="showcase on-dark">${sizeItemsDark}</div>
+                    <div class="showcase on-light">${sizeItemsLight}</div>
+                    <div class="lockup-row">
+                        <div class="lockup on-dark">
+                            ${makeSVG(c.paths, 32)}
+                            <span class="lockup-text">Browseway</span>
+                        </div>
+                        <div class="lockup on-light">
+                            ${makeSVG(c.paths, 32)}
+                            <span class="lockup-text">Browseway</span>
+                        </div>
+                    </div>
+                </div>
+                ${i < concepts.length - 1 ? '<div class="divider"></div>' : ''}
+            `;
+        });
+    </script>
+</body>
+</html>

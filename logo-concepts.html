@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browseway — Logo Concepts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Instrument+Serif&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #06060a;
+            --surface: #0e0e16;
+            --card: rgba(16, 16, 26, 0.7);
+            --border: rgba(255, 255, 255, 0.06);
+            --text: #eeeef0;
+            --dim: #7c7c96;
+            --muted: #4a4a60;
+            --accent: #6e8efa;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .page {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 5rem 2rem 6rem;
+        }
+
+        /* Header */
+        .page-header {
+            margin-bottom: 5rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.6rem;
+        }
+
+        .page-header p {
+            color: var(--dim);
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        /* Concept block */
+        .concept {
+            margin-bottom: 5rem;
+        }
+
+        .concept-label {
+            font-size: 0.62rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .concept-name {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.4rem;
+        }
+
+        .concept-desc {
+            color: var(--dim);
+            font-size: 0.82rem;
+            font-weight: 300;
+            line-height: 1.6;
+            max-width: 520px;
+            margin-bottom: 2rem;
+        }
+
+        /* Size showcase row */
+        .showcase {
+            border-radius: 14px;
+            padding: 2rem 2.5rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: flex-end;
+            gap: 2.5rem;
+            overflow-x: auto;
+        }
+
+        .showcase.on-dark {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .showcase.on-light {
+            background: #f2f2f5;
+            border: 1px solid #dddde2;
+            color: #111113;
+        }
+
+        .showcase-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.65rem;
+            flex-shrink: 0;
+        }
+
+        .showcase-size {
+            font-size: 0.58rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            opacity: 0.4;
+        }
+
+        /* Lockup section */
+        .lockup-row {
+            display: flex;
+            gap: 3rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .lockup {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+        }
+
+        .lockup.on-dark {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .lockup.on-light {
+            background: #f2f2f5;
+            border: 1px solid #dddde2;
+            color: #111113;
+        }
+
+        .lockup-text {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0 0 5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="page-header">
+            <h1>Browseway Logo Concepts</h1>
+            <p>Abstract B with routing lines — monochrome, vector-ready, multi-scale</p>
+        </div>
+
+        <div id="concepts"></div>
+    </div>
+
+    <script>
+        const concepts = [
+            {
+                name: 'Circuit B',
+                desc: 'Sharp geometric angles at fork junctions. Diagonal-to-horizontal transitions create a precise, circuit-board routing feel. The most technical and engineered of the four.',
+                paths: `
+                    <path d="M 10 4 V 44" stroke-width="4"/>
+                    <path d="M 10 13 L 21 6 H 40" stroke-width="2.8"/>
+                    <path d="M 10 13 L 21 20 H 40" stroke-width="2.8"/>
+                    <path d="M 10 35 L 21 28 H 40" stroke-width="2.8"/>
+                    <path d="M 10 35 L 21 42 H 40" stroke-width="2.8"/>
+                `
+            },
+            {
+                name: 'Flow B',
+                desc: 'Smooth bezier curves from spine to route lines. Feels organic and fluid — the URL flows naturally from source to browser. Softer, more approachable.',
+                paths: `
+                    <path d="M 10 4 V 44" stroke-width="4"/>
+                    <path d="M 10 13 C 10 8, 16 6, 22 6 L 40 6" stroke-width="2.8"/>
+                    <path d="M 10 13 C 10 18, 16 20, 22 20 L 40 20" stroke-width="2.8"/>
+                    <path d="M 10 35 C 10 30, 16 28, 22 28 L 40 28" stroke-width="2.8"/>
+                    <path d="M 10 35 C 10 40, 16 42, 22 42 L 40 42" stroke-width="2.8"/>
+                `
+            },
+            {
+                name: 'Signal B',
+                desc: 'Angular routes with directional arrowheads at each endpoint. Emphasizes the one-way routing — URLs enter from the left and are dispatched right. Most explicit about direction.',
+                paths: `
+                    <path d="M 10 4 V 44" stroke-width="3.5"/>
+                    <path d="M 10 13 L 21 6 H 36" stroke-width="2.5"/>
+                    <path d="M 36 3.5 L 40.5 6 L 36 8.5" stroke-width="2" fill="none"/>
+                    <path d="M 10 13 L 21 20 H 36" stroke-width="2.5"/>
+                    <path d="M 36 17.5 L 40.5 20 L 36 22.5" stroke-width="2" fill="none"/>
+                    <path d="M 10 35 L 21 28 H 36" stroke-width="2.5"/>
+                    <path d="M 36 25.5 L 40.5 28 L 36 30.5" stroke-width="2" fill="none"/>
+                    <path d="M 10 35 L 21 42 H 36" stroke-width="2.5"/>
+                    <path d="M 36 39.5 L 40.5 42 L 36 44.5" stroke-width="2" fill="none"/>
+                `
+            },
+            {
+                name: 'Graph B',
+                desc: 'Smooth curves with filled dots at junction and endpoint nodes. Network-graph aesthetic — every connection point is a visible node. The most "data" feel.',
+                paths: `
+                    <path d="M 10 4 V 44" stroke-width="2.5"/>
+                    <path d="M 10 13 C 10 8, 16 6, 22 6 L 37 6" stroke-width="2"/>
+                    <path d="M 10 13 C 10 18, 16 20, 22 20 L 37 20" stroke-width="2"/>
+                    <path d="M 10 35 C 10 30, 16 28, 22 28 L 37 28" stroke-width="2"/>
+                    <path d="M 10 35 C 10 40, 16 42, 22 42 L 37 42" stroke-width="2"/>
+                    <circle cx="10" cy="13" r="3" fill="currentColor" stroke="none"/>
+                    <circle cx="10" cy="35" r="3" fill="currentColor" stroke="none"/>
+                    <circle cx="40" cy="6" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="40" cy="20" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="40" cy="28" r="2.5" fill="currentColor" stroke="none"/>
+                    <circle cx="40" cy="42" r="2.5" fill="currentColor" stroke="none"/>
+                `
+            },
+            {
+                name: 'Graph B Bold',
+                desc: 'Graph B with heavier stroke weight — more presence at small sizes, bolder personality. Nodes enlarged proportionally for visual balance.',
+                paths: `
+                    <path d="M 10 4 V 44" stroke-width="3.8"/>
+                    <path d="M 10 13 C 10 8, 16 6, 22 6 L 36 6" stroke-width="3"/>
+                    <path d="M 10 13 C 10 18, 16 20, 22 20 L 36 20" stroke-width="3"/>
+                    <path d="M 10 35 C 10 30, 16 28, 22 28 L 36 28" stroke-width="3"/>
+                    <path d="M 10 35 C 10 40, 16 42, 22 42 L 36 42" stroke-width="3"/>
+                    <circle cx="10" cy="13" r="3.5" fill="currentColor" stroke="none"/>
+                    <circle cx="10" cy="35" r="3.5" fill="currentColor" stroke="none"/>
+                    <circle cx="40" cy="6" r="3" fill="currentColor" stroke="none"/>
+                    <circle cx="40" cy="20" r="3" fill="currentColor" stroke="none"/>
+                    <circle cx="40" cy="28" r="3" fill="currentColor" stroke="none"/>
+                    <circle cx="40" cy="42" r="3" fill="currentColor" stroke="none"/>
+                `
+            }
+        ];
+
+        const sizes = [16, 24, 32, 48, 64, 128];
+        const container = document.getElementById('concepts');
+
+        function makeSVG(paths, size) {
+            return `<svg width="${size}" height="${size}" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+        }
+
+        concepts.forEach((c, i) => {
+            const sizeItemsDark = sizes.map(s =>
+                `<div class="showcase-item">${makeSVG(c.paths, s)}<span class="showcase-size">${s}px</span></div>`
+            ).join('');
+
+            const sizeItemsLight = sizes.map(s =>
+                `<div class="showcase-item">${makeSVG(c.paths, s)}<span class="showcase-size">${s}px</span></div>`
+            ).join('');
+
+            container.innerHTML += `
+                <div class="concept">
+                    <div class="concept-label">Concept ${String(i + 1).padStart(2, '0')}</div>
+                    <h2 class="concept-name">${c.name}</h2>
+                    <p class="concept-desc">${c.desc}</p>
+                    <div class="showcase on-dark">${sizeItemsDark}</div>
+                    <div class="showcase on-light">${sizeItemsLight}</div>
+                    <div class="lockup-row">
+                        <div class="lockup on-dark">
+                            ${makeSVG(c.paths, 32)}
+                            <span class="lockup-text">Browseway</span>
+                        </div>
+                        <div class="lockup on-light">
+                            ${makeSVG(c.paths, 32)}
+                            <span class="lockup-text">Browseway</span>
+                        </div>
+                    </div>
+                </div>
+                ${i < concepts.length - 1 ? '<div class="divider"></div>' : ''}
+            `;
+        });
+    </script>
+</body>
+</html>

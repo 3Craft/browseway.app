@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Browseway</title>
+        <item>
+            <title>1.0.1</title>
+            <pubDate>Mon, 02 Mar 2026 11:22:10 +0800</pubDate>
+            <sparkle:version>26</sparkle:version>
+            <sparkle:shortVersionString>1.0.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://browseway.app/updates/Browseway.dmg" length="1866438" type="application/octet-stream" sparkle:edSignature="cVkZAgISCXGFuV3BPfDD3oNNWTF+u2dQ2hQVWxEuISRfwhCcysl847UEKZvdB7AVsw3YiJ01/74aiYnrIElhBQ=="/>
+        </item>
+    </channel>
+</rss>

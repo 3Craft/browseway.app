@@ -4,12 +4,12 @@
         <title>Browseway</title>
         <item>
             <title>1.2.2</title>
-            <pubDate>Mon, 02 Mar 2026 23:52:12 +0800</pubDate>
-            <sparkle:version>33</sparkle:version>
+            <pubDate>Tue, 10 Mar 2026 10:54:42 +0800</pubDate>
+            <sparkle:version>41</sparkle:version>
             <sparkle:shortVersionString>1.2.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
-            <enclosure url="https://browseway.app/updates/Browseway.dmg" length="1977181" type="application/octet-stream" sparkle:edSignature="6S1nkrdGCv+8pbm0lLf6VUyoEOnGbliYHFB4RhgoI15sc17G6pTs/VhwOpSa62KpbEjBnjwy4wDh2JYQY/bBAg=="/>
+            <enclosure url="https://browseway.app/updates/Browseway.dmg" length="1986850" type="application/octet-stream" sparkle:edSignature="SKH+JjlrOBoOsWglFtahQooObcvZ2x1gbj9C06d07EEAqq1cnz5CcpCJ4fdGh2Hn6beXJnBBd2EGhIXZQifDCQ=="/>
         </item>
     </channel>
 </rss>

@@ -3,13 +3,13 @@
     <channel>
         <title>Browseway</title>
         <item>
-            <title>1.4.1</title>
-            <pubDate>Fri, 20 Mar 2026 12:16:04 +0800</pubDate>
-            <sparkle:version>54</sparkle:version>
-            <sparkle:shortVersionString>1.4.1</sparkle:shortVersionString>
+            <title>1.4.2</title>
+            <pubDate>Fri, 20 Mar 2026 14:21:46 +0800</pubDate>
+            <sparkle:version>56</sparkle:version>
+            <sparkle:shortVersionString>1.4.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
-            <enclosure url="https://browseway.app/updates/Browseway.dmg" length="2518444" type="application/octet-stream" sparkle:edSignature="7f2F/xYemYgLEKvZWt1XG+wxIVYAAc2tKj0Ogg6PAGq8WXVEgT4MUjc1lhR9ijI4MdhLbit8cBarQKs/wWp2BQ=="/>
+            <enclosure url="https://browseway.app/updates/Browseway.dmg" length="2522414" type="application/octet-stream" sparkle:edSignature="kqT76ukPxkjd+HOkYXrfLzJ7CFVWDlb3jssnSOXNuL7YN4SpAgAegzp0vzWd/XiyLHpvB9Q7l9Wwo7hk+4tsBQ=="/>
         </item>
     </channel>
 </rss>

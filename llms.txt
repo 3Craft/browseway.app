@@ -1,0 +1,44 @@
+# Browseway
+
+> Rule-based browser switching for macOS
+
+Browseway is a free macOS menu bar app that automatically routes URLs to different browsers based on source app and URL patterns. Set your rules once — every link opens in the right browser, silently and instantly.
+
+- Website: https://browseway.app
+- Download: https://browseway.app/updates/Browseway.dmg
+- GitHub: https://github.com/3Craft/browseway.app
+- Price: Free
+- System: macOS 14.0+ (Sonoma), Apple Silicon
+- Size: 1.8 MB
+- Author: 3Craft
+
+## Features
+
+- **Source App Rules**: Route links by which app sent them. Links from Slack open in Chrome, links from Telegram open in Safari — each app gets its own browser.
+- **URL Pattern Matching**: Route by domain, wildcard, or substring. Send github.com to Firefox, google.com to Chrome.
+- **URL Cleaning**: Strips utm_*, fbclid, gclid and other tracking parameters. Expands bit.ly and t.co short links before routing.
+- **Browser Profiles**: Route to specific Chrome, Edge, or Firefox profiles. Work links go to your work profile, personal links to personal.
+- **Pause Rules**: One-click toggle from the menu bar to bypass all rules temporarily. Every link goes to your fallback browser until you resume.
+- **CLI Tool**: Full command-line interface for rules, browsers, and routing. JSON output for scripting, perfect for automation and AI agents.
+- **Shortcuts Integration**: Create rules, route URLs, and manage browsers through Apple Shortcuts and App Intents.
+- **Auto Updates**: Built-in Sparkle updater keeps the app current automatically.
+- **Localization**: English and Chinese Simplified.
+
+## How It Works
+
+1. A URL is clicked in any app.
+2. macOS sends it to Browseway (set as default browser).
+3. Browseway checks rules: first by source app, then by URL pattern.
+4. The matching browser opens the URL instantly.
+5. If no rule matches, the fallback (default) browser opens it.
+
+## Use Cases
+
+- **Developers**: Open GitHub in Firefox, Jira in Chrome, docs in Arc.
+- **Work/Personal separation**: Route work domains to a work browser profile, everything else to personal.
+- **Privacy-conscious users**: Strip tracking parameters automatically, expand short URLs before opening.
+- **Power users**: Automate browser routing via CLI or Apple Shortcuts.
+
+## Compared To
+
+Browseway is a modern alternative to apps like Finicky, Browserosaurus, and Choosy. Key differences: native Swift app (not Electron), menu bar only (no dock icon), rule-based automation (not a manual picker popup), and Apple Silicon native.

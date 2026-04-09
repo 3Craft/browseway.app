@@ -825,23 +825,47 @@
             }
 
             .route-map {
-                padding: 1.5rem;
+                padding: 1.25rem;
+            }
+
+            .route-row {
+                gap: 0.5rem;
             }
 
             .route-source {
-                min-width: 100px;
+                min-width: 0;
+                flex: 1;
+                overflow: hidden;
             }
 
             .route-source-name {
                 font-size: 0.75rem !important;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .route-line {
+                min-width: 24px;
+                flex: 0 0 24px;
             }
 
             .route-target {
-                min-width: 80px;
+                min-width: 0;
+                flex: 0 1 auto;
+                overflow: hidden;
             }
 
             .route-target-name {
                 font-size: 0.75rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .route-badge {
+                font-size: 0.5rem;
+                padding: 0.12rem 0.35rem;
             }
 
             .browser-grid {
@@ -857,6 +881,29 @@
         }
 
         @media (max-width: 480px) {
+            .container {
+                padding: 0 1.25rem;
+            }
+
+            .route-map {
+                padding: 1rem;
+            }
+
+            .route-source-icon,
+            .route-target-icon {
+                width: 28px;
+                height: 28px;
+                border-radius: 6px;
+            }
+
+            .route-source-icon img,
+            .route-target-icon img,
+            .route-source-icon svg,
+            .route-target-icon svg {
+                width: 16px;
+                height: 16px;
+            }
+
             .features-grid {
                 border-radius: 12px;
             }

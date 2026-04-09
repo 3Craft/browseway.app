@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, height=630">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 1200px;
+            height: 630px;
+            overflow: hidden;
+        }
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: #08080c;
+            color: #eeeef0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Atmospheric glow */
+        .glow-top {
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 500px;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(110, 142, 250, 0.1) 0%,
+                rgba(110, 142, 250, 0.04) 40%,
+                transparent 70%
+            );
+            pointer-events: none;
+        }
+        .glow-bottom {
+            position: absolute;
+            bottom: -80px;
+            left: 200px;
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(196, 149, 106, 0.06) 0%,
+                transparent 60%
+            );
+            pointer-events: none;
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            width: 1120px;
+            height: 550px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            background: rgba(14, 14, 20, 0.8);
+            display: flex;
+            align-items: center;
+            padding: 0 80px;
+            gap: 64px;
+        }
+
+        .left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #8888a0;
+            letter-spacing: 0.03em;
+        }
+        .badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #6e8efa;
+            box-shadow: 0 0 8px rgba(110, 142, 250, 0.5);
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 64px;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: #eeeef0;
+        }
+        h1 em {
+            font-style: italic;
+            color: #6e8efa;
+        }
+
+        .desc {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #8888a0;
+            max-width: 480px;
+        }
+
+        .meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #55556a;
+        }
+        .meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Right side: routing diagram */
+        .right {
+            flex-shrink: 0;
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .diagram {
+            position: relative;
+            width: 340px;
+            height: 400px;
+        }
+
+        /* App icon - centered left */
+        .app-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 72px;
+            height: 72px;
+            border-radius: 16px;
+            background: #14141e;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .app-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Browser icons - right column */
+        .browser {
+            position: absolute;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: #14141e;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+        }
+        .browser img {
+            width: 32px;
+            height: 32px;
+        }
+        .browser:nth-child(2) { top: 40px; }
+        .browser:nth-child(3) { top: 120px; }
+        .browser:nth-child(4) { top: 200px; }
+        .browser:nth-child(5) { top: 280px; }
+        .browser:nth-child(6) { top: 360px; }
+
+        /* Connection lines */
+        .lines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        .lines svg {
+            width: 100%;
+            height: 100%;
+        }
+        .line {
+            stroke: rgba(110, 142, 250, 0.25);
+            stroke-width: 1.5;
+            fill: none;
+        }
+        .line.active {
+            stroke: rgba(110, 142, 250, 0.6);
+            stroke-width: 2;
+        }
+
+        /* Domain label */
+        .url-tag {
+            font-size: 11px;
+            font-family: 'DM Sans', monospace;
+            color: #55556a;
+            background: rgba(110, 142, 250, 0.08);
+            border: 1px solid rgba(110, 142, 250, 0.15);
+            border-radius: 6px;
+            padding: 3px 8px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-top"></div>
+    <div class="glow-bottom"></div>
+
+    <div class="card">
+        <div class="left">
+            <div class="badge">macOS Menu Bar App</div>
+            <h1>One URL in,<br>the <em>right</em><br>browser out</h1>
+            <p class="desc">Rule-based browser switching. Routes every link to the right browser — by source app and URL pattern.</p>
+            <div class="meta">
+                <span>Free</span>
+                <span>&middot;</span>
+                <span>macOS 14+</span>
+                <span>&middot;</span>
+                <span>browseway.app</span>
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="diagram">
+                <!-- Connection lines -->
+                <svg class="lines" viewBox="0 0 340 400">
+                    <!-- From Browseway icon center (56, 200) to each browser center (264, y) -->
+                    <path class="line active" d="M 92 200 C 160 200, 200 68, 264 68" />
+                    <path class="line" d="M 92 200 C 160 200, 200 148, 264 148" />
+                    <path class="line" d="M 92 200 C 160 200, 200 228, 264 228" />
+                    <path class="line" d="M 92 200 C 160 200, 200 308, 264 308" />
+                    <path class="line" d="M 92 200 C 160 200, 200 388, 264 388" />
+                </svg>
+
+                <!-- Browseway app icon -->
+                <div class="app-icon">
+                    <svg viewBox="0 0 48 48" fill="none">
+                        <g transform="translate(24,24) scale(0.78) translate(-24,-24)">
+                            <path d="M 10 4 V 44" stroke="#eeeef0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M 10 13 C 10 8, 16 6, 22 6 L 36 6" stroke="#eeeef0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M 10 13 C 10 18, 16 20, 22 20 L 36 20" stroke="#eeeef0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M 10 35 C 10 30, 16 28, 22 28 L 36 28" stroke="#eeeef0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M 10 35 C 10 40, 16 42, 22 42 L 36 42" stroke="#eeeef0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="10" cy="13" r="4.5" fill="#eeeef0"/>
+                            <circle cx="10" cy="35" r="4.5" fill="#eeeef0"/>
+                            <circle cx="40" cy="6" r="4" fill="#eeeef0"/>
+                            <circle cx="40" cy="20" r="4" fill="#eeeef0"/>
+                            <circle cx="40" cy="28" r="4" fill="#eeeef0"/>
+                            <circle cx="40" cy="42" r="4" fill="#eeeef0"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Browser icons -->
+                <div class="browser"><img src="icons/chrome.svg" alt="Chrome"></div>
+                <div class="browser"><img src="icons/safari.svg" alt="Safari"></div>
+                <div class="browser"><img src="icons/firefox.svg" alt="Firefox"></div>
+                <div class="browser"><img src="icons/arc.svg" alt="Arc"></div>
+                <div class="browser"><img src="icons/edge.svg" alt="Edge"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

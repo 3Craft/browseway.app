@@ -3,14 +3,14 @@
     <channel>
         <title>Browseway</title>
         <item>
-            <title>Browseway 1.5.0-preview.2</title>
-            <pubDate>Wed, 21 Oct 2026 13:56:57 +0000</pubDate>
+            <title>Browseway 1.5.0-preview.3</title>
+            <pubDate>Wed, 21 Oct 2026 14:54:44 +0000</pubDate>
             <sparkle:channel>beta</sparkle:channel>
-            <sparkle:version>67</sparkle:version>
-            <sparkle:shortVersionString>1.5.0-preview.2</sparkle:shortVersionString>
+            <sparkle:version>68</sparkle:version>
+            <sparkle:shortVersionString>1.5.0-preview.3</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <link>https://github.com/3Craft/browseway.app/releases/tag/v1.5.0-preview.2</link>
-            <description>&lt;p&gt;修复 macOS 27 浏览器图标，以及暂停/恢复规则和设置图标的对齐。设置 → 关于新增正式版/测试版更新渠道。&lt;/p&gt;&lt;p&gt;Apple Development 开发预览版；仅供描述文件覆盖的开发设备手动安装。描述文件于 2026-10-28 21:02（Asia/Singapore）到期。详见发布页。&lt;/p&gt;</description>
+            <link>https://github.com/3Craft/browseway.app/releases/tag/v1.5.0-preview.3</link>
+            <description>&lt;p&gt;App、菜单栏与浏览器扩展更新为加粗的几何 W 图标，官网同步新标志与轻量动效。&lt;/p&gt;&lt;p&gt;Apple Development 开发预览版；供描述文件覆盖的开发设备手动安装。描述文件于 2026-10-28 21:02（Asia/Singapore）到期。详见发布页。&lt;/p&gt;</description>
         </item>
         <item>
             <title>1.4.2</title>

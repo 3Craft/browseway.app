@@ -3,14 +3,14 @@
     <channel>
         <title>Browseway</title>
         <item>
-            <title>Browseway 1.5.0-preview.4</title>
-            <pubDate>Wed, 21 Oct 2026 15:37:06 +0000</pubDate>
+            <title>Browseway 1.5.0-preview.5</title>
+            <pubDate>Wed, 21 Oct 2026 16:11:51 +0000</pubDate>
             <sparkle:channel>beta</sparkle:channel>
-            <sparkle:version>69</sparkle:version>
-            <sparkle:shortVersionString>1.5.0-preview.4</sparkle:shortVersionString>
+            <sparkle:version>71</sparkle:version>
+            <sparkle:shortVersionString>1.5.0-preview.5</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <link>https://github.com/3Craft/browseway.app/releases/tag/v1.5.0-preview.4</link>
-            <description>&lt;p&gt;修复规则和设置在重启后丢失的问题。使用获得签名 Team ID 授权的 macOS 共享容器，保留可读旧配置；新增规则已通过重启和 CLI 交叉验证。&lt;/p&gt;&lt;p&gt;Apple Development 开发预览版，未公证，需手动下载安装。详见发布页。&lt;/p&gt;</description>
+            <link>https://github.com/3Craft/browseway.app/releases/tag/v1.5.0-preview.5</link>
+            <description>&lt;p&gt;关于页与更新窗口已统一为几何 W 图标，去掉多余的软件更新标题。&lt;/p&gt;&lt;p&gt;更新方式已升级，请下载安装此版完成一次过渡，后续测试版可在 App 内下载并安装。&lt;/p&gt;</description>
         </item>
         <item>
             <title>1.4.2</title>

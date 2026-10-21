@@ -1,7 +1,17 @@
-<?xml version="1.0" standalone="yes"?>
+<?xml version='1.0' encoding='utf-8'?>
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
     <channel>
         <title>Browseway</title>
+        <item>
+            <title>Browseway 1.5.0-preview.1</title>
+            <pubDate>Wed, 21 Oct 2026 13:10:01 +0000</pubDate>
+            <sparkle:channel>beta</sparkle:channel>
+            <sparkle:version>64</sparkle:version>
+            <sparkle:shortVersionString>1.5.0-preview.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <link>https://github.com/3Craft/browseway.app/releases/tag/v1.5.0-preview.1</link>
+            <description>&lt;p&gt;Development preview: browser management and redesigned Settings.&lt;/p&gt;&lt;p&gt;Apple Development signing; manual installation on covered development devices. Provisioning expires on 2026-10-28 at 21:02 (Asia/Singapore). See the release page for details.&lt;/p&gt;</description>
+        </item>
         <item>
             <title>1.4.2</title>
             <pubDate>Fri, 20 Mar 2026 14:21:46 +0800</pubDate>
@@ -9,7 +19,7 @@
             <sparkle:shortVersionString>1.4.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
-            <enclosure url="https://browseway.app/updates/Browseway.dmg" length="2522414" type="application/octet-stream" sparkle:edSignature="kqT76ukPxkjd+HOkYXrfLzJ7CFVWDlb3jssnSOXNuL7YN4SpAgAegzp0vzWd/XiyLHpvB9Q7l9Wwo7hk+4tsBQ=="/>
+            <enclosure url="https://browseway.app/updates/Browseway.dmg" length="2522414" type="application/octet-stream" sparkle:edSignature="kqT76ukPxkjd+HOkYXrfLzJ7CFVWDlb3jssnSOXNuL7YN4SpAgAegzp0vzWd/XiyLHpvB9Q7l9Wwo7hk+4tsBQ==" />
         </item>
     </channel>
 </rss>

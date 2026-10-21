@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 48 48" fill="none" color="#eeeef0" role="img" aria-label="Browseway geometric W logo">
+  <title>Browseway geometric W logo</title>
+  <g class="mark">
+    <path class="route" d="M35.7 10L12.3 17L35.7 24L12.3 31L35.7 38" pathLength="100" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" />
+    <circle class="node node-0" cx="35.7" cy="10" r="3.6" fill="currentColor" />
+    <circle class="node node-1" cx="12.3" cy="17" r="3.6" fill="currentColor" />
+    <circle class="node node-2" cx="35.7" cy="24" r="3.6" fill="currentColor" />
+    <circle class="node node-3" cx="12.3" cy="31" r="3.6" fill="currentColor" />
+    <circle class="node node-4" cx="35.7" cy="38" r="3.6" fill="currentColor" />
+  </g>
+</svg>

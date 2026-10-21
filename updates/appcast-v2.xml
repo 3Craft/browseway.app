@@ -11,7 +11,9 @@
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <link>https://github.com/3Craft/browseway.app/releases/tag/v1.5.0-preview.5</link>
             <description>&lt;p&gt;改进软件更新，可在 App 内下载并安装新版本。关于页和更新窗口统一为几何 W 图标，去掉多余的软件更新标题。&lt;/p&gt;</description>
-            <sparkle:minimumAutoupdateVersion>70</sparkle:minimumAutoupdateVersion>
+            <sparkle:informationalUpdate>
+                <sparkle:belowVersion>70</sparkle:belowVersion>
+            </sparkle:informationalUpdate>
             <enclosure url="https://github.com/3Craft/browseway.app/releases/download/v1.5.0-preview.5/Browseway.dmg" length="4362822" type="application/octet-stream" sparkle:edSignature="TCxwaTz4utTE1yj6F9bz3IYyjnTZLjr50qRe1cZevchef03EehvLrT18VVRRsmV8jTrpa+MlAlGAkCWGqG6bAQ==" />
         </item>
         <item>
